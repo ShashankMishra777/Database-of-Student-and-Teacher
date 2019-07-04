@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>List of teachers</title>
+
+<style>
+
+  .button2 {background-color: #008CBA;
+   border-radius: 15px;
+  }
+
+  .button3 {background-color: #00b300;
+   border-radius: 5px;
+   size: 100px;
+   color: #361c73;
+   height: 40px;
+  }
+  .button {background-color: orange;
+   border-radius: 5px;
+   size: 20px;
+   color: white;
+  }
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color:grey;}
+#customers tr:nth-child(odd){background-color:lightgrey;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #00b300;
+  color: #361c73;
+}
+</style>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  
+</head>
+<body style="background-color: #361c73">
+<div class="container">
+  <div align="right">
+  <button type="button"data-toggle="modal" class="button3" data-target="#myModal" style="color: white">
+    ADD TEACHER
+  </button>
+</div>
+ <div align="left"> <form method="POST" action="/mainpage" ><button class="btn-danger" ><---RETURN</button></form>
+  
+ 
+        <center><h1 style="color: black">TABLE FOR TEACHER</h1>
+<table id="customers">
+  <tr>
+    <th style="color: white" >Name</th>
+    <th style="color: white" >HOD</th>
+    <th style="color: white">Department</th>
+    <th style="color: white">Status</th>
+    <th style="color: white"></th>
+   
+  </tr>
+   {% for teacher in teachers %}
+  <tr>
+    <td>{{teacher.Name}}</td>
+    <td>{{teacher.HOD}}</td>
+    <td>{{teacher.Department}}</td>
+    <td><button button class="btn btn-warning"  data-toggle="modal" onclick="getId('{{teacher.S_no}}')" data-target="#myModal2{{teacher.S_no}}">EDIT</button></td>
+    <td><form action="/tdelete/{{teacher.S_no}}" ><button class="btn btn-danger" onclick ="delete1()">DELETE</button></form></td>
+  </tr>
+   <!-- The Modal -->
+  <div class="modal" id="myModal2{{teacher.S_no}}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          
+            <h4 class="modal-title">FILL THE FORM</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+    
+<form name="Reg">
+    <div class="form-group">
+  
+      <div class="col-sm-15">
+    <label class="control-label col-sm-4" for="Name" >NAME:</label>
+      <input  name="Name" id="name_{{teacher.S_no}}" value="{{ teacher['Name'] }}" type="text" placeholder="Name" required="" >
+    </div>
+  </div>
+    <div class="form-group"> 
+      <div class="col-sm-15">
+        <label  class="control-label col-sm-4" for="HOD" >HOD:</label>
+      <input name="HOD" id="hod_{{teacher.S_no}}" value="{{ teacher['HOD'] }}" type="text" placeholder="HOD" required="" >
+    </div>
+  </div>
+     <div class="form-group">
+      <div class="col-sm-15">
+    <label class="control-label col-sm-4" for="Department" >Department:</label>
+      <input name="Department" id="dept_{{teacher.S_no}}" value="{{ teacher['Department'] }}" type="text" placeholder="Department" required="" >
+    </div>
+  </div>
+   
+    <p>
+    <input name="S_no" class="id" value="{{ teacher['S_no'] }}" type="hidden" >
+    <button class="button2" type="submit" value="Submit" >SUBMIT</button>
+  </p>
+</form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+{%endfor%}
+</table>
+
+<!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">FILL THE FORM</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form name="RegForm" >
+    <dl>
+    <div class="form-group">
+  
+      <div class="col-sm-15">
+    <label class="control-label col-sm-4" for="Name" >NAME:</label>
+      <input name="Name" id="11" value="" type="text" placeholder="Name" autocomplete="off" >
+    </div>
+  </div>
+    <div class="form-group">
+      <div class="col-sm-15">
+    <label class="control-label col-sm-4" for="HOD" >HOD:</label>
+      <input name="HOD" id="21" value="" type="text" placeholder="HOD" autocomplete="off" >
+    </div>
+  </div>
+   <div class="form-group">
+      <div class="col-sm-15">
+    <label class="control-label col-sm-4" for="Department" >Department:</label>
+      <input name="Department" id="31" value="" type="text" placeholder="Department" autocomplete="off" >
+    </div>
+  </div>
+
+    </dl>
+    <p>
+    <button class="alpha" name="ADD"  >ADD</button> 
+  </p>
+</form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</center>
+
+<script src="{{url_for('static',filename='ajax2.js')}}"></script>
+<script> 
+
+function delete1() {
+  window.alert("User deleted successfully")
+}
+</script>
+<script type="text/javascript">
+  function getId(id)
+  {
+    $(".id").val(id);
+  }
+
+  $(".button2").click(function(){
+      var id = $(".id").val();
+      var name = $("#name_"+id).val();
+      var hod = $("#hod_"+id).val();               
+      var dept = $("#dept_"+id).val();  
+      var data = { 's_no':id,
+          'Name':name,
+          'HOD': hod ,
+          'Department':dept
+      }
+      if(name==""){
+        window.alert("Enter teachers name");
+        return false;
+      }
+      if(hod==""){
+        window.alert("Enter if the teacher is HOD");
+        return false;
+      }
+      if(dept==""){
+        
+        window.alert("Enter name of Department");
+        return false;
+      }
+      
+      $.ajax({
+        type : 'POST',
+              url : "/tupdate",
+              contentType: 'application/json',
+              data : JSON.stringify(data),
+              success: function (data)
+              {
+                console.log(data);
+                location.reload();
+            window.alert("User updated successfully");
+            
+               },
+               error: function(result){
+                window.alert("There was an error.");
+                location.reload()
+               }
+
+      });
+      return false; 
+
+    });
+</script>
+
+</body>
+</html>

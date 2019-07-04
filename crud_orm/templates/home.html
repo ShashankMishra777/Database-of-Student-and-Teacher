@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>List of Students</title>
+
+<style>
+
+  .button2 {background-color: #008CBA;
+   border-radius: 15px;
+  }
+
+  .button3 {background-color: #00b300;
+   border-radius: 5px;
+   size: 100px;
+   color: #361c73;
+   height: 40px;
+  }
+  .button {background-color: orange;
+   border-radius: 5px;
+   size: 20px;
+   color: white;
+  }
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color:grey;}
+#customers tr:nth-child(odd){background-color:lightgrey;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #21b09f;
+  color: #361c73;
+}
+</style>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  
+</head>
+<body style="background-color: #361c73">
+<div class="container">
+  <div align="right">
+  <button type="button"data-toggle="modal" style="color: white" class="button3" data-target="#myModal" >
+    ADD STUDENT
+  </button>
+</div>
+   <div align="left"> <form method="POST" action="/mainpage" ><button class="btn-danger" ><---RETURN</button></form>
+ 
+        <center><h1 style="color: black">TABLE FOR STUDENTS</h1>
+<table id="customers">
+  <tr>
+    <th style="color: white">Name</th>
+    <th style="color: white">Monitor</th>
+    <th style="color: white">Subjects</th>
+    <th style="color: white">Status</th>
+    <th style="color: white"></th>
+   
+  </tr>
+   {% for student in students %}
+  <tr>
+    <td>{{student.Name}}</td>
+    <td>{{student.Monitor}}</td>
+    <td>{{student.Subjects}}</td>
+    <td><button button class="button button"  data-toggle="modal" onclick="getId('{{student.Roll_No}}')" data-target="#myModal2{{student.Roll_No}}">EDIT</button></td>
+    <td><form action="/delete/{{student.Roll_No}}" ><button class="btn btn-danger" onclick ="delete1()">DELETE</button></form></td>
+  </tr>
+   <!-- The Modal -->
+  <div class="modal" id="myModal2{{student.Roll_No}}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          
+            <h4 class="modal-title">FILL THE FORM</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+    
+<form class="form-horizontal" name="Reg" >
+  <dl>
+    <div class="form-group">
+  
+      <div class="col-sm-15">
+    <label class="control-label col-sm-4" for="Name" >NAME:</label>
+  <input  name="Name" id="name_{{student.Roll_No}}" value="{{ student['Name'] }}" type="text" placeholder="Name" required="" >
+    </div>
+  </div>
+    
+     <div class="form-group"> 
+      <div class="col-sm-15">
+        <label  class="control-label col-sm-4" for="MONITOR" >MONITOR:</label>
+  <input name="Monitor" id="monitor_{{student.Roll_No}}" value="{{ student['Monitor'] }}" type="text" placeholder="Monitor" required="" >
+    </div>
+  </div>
+      <div class="form-group">
+      <div class="col-sm-15">
+    <label class="control-label col-sm-4" for="Subjects" >SUBJECTS:</label><input name="Subjects" id="sub_{{student.Roll_No}}" value="{{ student['Subjects'] }}" type="text" placeholder="Subjects" required="" >
+</div>
+
+    
+   
+  </dl>
+    <p>
+    <input name="Roll_No" class="id" value="{{ student['Roll_No'] }}" type="hidden" >
+    <button button class="button2" type="submit" value="Submit" >SUBMIT</button>
+  </p>
+</form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+{%endfor%}
+</table>
+
+<!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">FILL THE FORM</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form name="RegForm" >
+    <dl>
+     <div class="form-group">
+  
+      <div class="col-sm-15">
+    <label class="control-label col-sm-4" for="Name" >NAME:</label>
+      <input name="Name" id="1" value="" type="text" placeholder="Name" autocomplete="off" >
+    </div>
+  </div>
+    
+     <div class="form-group"> 
+      <div class="col-sm-15">
+        <label  class="control-label col-sm-4" for="MONITOR" >MONITOR:</label>
+      <input name="Monitor" id="2" value="" type="text" placeholder="Monitor" autocomplete="off" >
+    </div>
+  </div>
+    <div class="form-group"> 
+      <div class="col-sm-15">
+        <label  class="control-label col-sm-4" for="Subjects" >SUBJECTS:</label>
+      <input name="Subjects" id="3" value="" type="text" placeholder="Subjects" autocomplete="off" >
+    </div>
+  </div>
+
+    </dl>
+    <p>
+    <button class="alpha" name="ADD"  >ADD</button> 
+  </p>
+</form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</center>
+
+<script src="{{url_for('static',filename='ajax.js')}}"></script>
+<script> 
+
+function delete1() {
+  window.alert("User deleted successfully")
+}
+</script>
+<script type="text/javascript">
+  function getId(id)
+  {
+    $(".id").val(id);
+  }
+
+  $(".button2").click(function(){
+      var id = $(".id").val();
+      var name = $("#name_"+id).val();
+      var monitor = $("#monitor_"+id).val();               
+      var sub = $("#sub_"+id).val();  
+      var data = { 'Roll_No':id,
+          'Name':name,
+          'Monitor': monitor ,
+          'Subjects':sub,
+      }
+      if(name==""){
+        window.alert("Enter student's name");
+        return false;
+      }
+      if(monitor==""){
+        window.alert("Enter if the teacher is monitor");
+        return false;
+      }
+      if(sub==""){
+        
+        window.alert("Enter name of Subjects");
+        return false;
+      }
+      
+      $.ajax({
+        type : 'POST',
+              url : "/update",
+              contentType: 'application/json',
+              data : JSON.stringify(data),
+              success: function (data)
+              {
+                console.log(data);
+                location.reload();
+            window.alert("User updated successfully");
+            
+               },
+               error: function(result){
+                window.alert("There was an error.");
+                location.reload()
+               }
+
+      });
+      return false; 
+
+    });
+</script>
+
+
+</body>
+</html>
